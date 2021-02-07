@@ -1,17 +1,18 @@
-import React from 'react'
+import React from 'react';
 
 class SearchBar extends React.Component {
-    state = { term: '' }
+    state = { term: '' };
 
     //92: Solving Content issues: converting onFormSubmit(event) {} to onFormSubmit = (event) => {} binds
     //'this' reference in the function to instance of SearchBar
     onFormSubmit = (event) => {
         //onFormSubmit(event) {
-        //prevents form submission after user hits enter
-        //form submission forces the page to refresh
-        event.preventDefault()
-        this.props.onSubmit(this.state.term)
-    }
+        //prevents form submission after user hits enter form submission forces the page to refresh
+        // https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
+        event.preventDefault();
+        // call App.onSearchSubmit(term). Props are arguments passed into React components.
+        this.props.onSubmit(this.state.term);
+    };
 
     render() {
         return (
@@ -30,8 +31,8 @@ class SearchBar extends React.Component {
                     </div>
                 </form>
             </div>
-        )
+        );
     }
 }
 
-export default SearchBar
+export default SearchBar;
