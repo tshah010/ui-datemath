@@ -1,7 +1,30 @@
 import React from 'react';
+import {
+    DateInput,
+    TimeInput,
+    DateTimeInput,
+    DatesRangeInput,
+} from 'semantic-ui-calendar-react';
 
 class DateQueryBeforeAfter extends React.Component {
-    state = { quantum: '', uot: '' };
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            date: '',
+            time: '',
+            dateTime: '',
+            datesRange: '',
+            quantum: '',
+            uot: '',
+        };
+    }
+
+    handleChange = (event, { name, value }) => {
+        if (this.state.hasOwnProperty(name)) {
+            this.setState({ [name]: value });
+        }
+    };
 
     // see https://react.semantic-ui.com/modules/dropdown/#types-selection
 
@@ -42,12 +65,13 @@ class DateQueryBeforeAfter extends React.Component {
                     </div>
                     <div class="field">
                         <label>Date/Time</label>
-                        <div class="ui calendar" id="example1">
-                            <div class="ui input left icon">
-                                <i class="calendar icon"></i>
-                                <input type="text" placeholder="Date/Time" />
-                            </div>
-                        </div>
+                        <DateTimeInput
+                            name="dateTime"
+                            placeholder="Date Time"
+                            value={this.state.dateTime}
+                            iconPosition="left"
+                            onChange={this.handleChange}
+                        />
                     </div>
                     <div class="field">
                         <label>&nbsp;</label>
