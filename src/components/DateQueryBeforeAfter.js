@@ -1,22 +1,26 @@
 import React from 'react';
-import {
-    DateInput,
-    TimeInput,
-    DateTimeInput,
-    DatesRangeInput,
-} from 'semantic-ui-calendar-react';
+import { DateInput } from 'semantic-ui-calendar-react';
+import { Dropdown, Input } from 'semantic-ui-react';
+
+const unitOfTimeOptions = [
+    { key: '0', text: 'hours', value: '0' },
+    { key: '1', text: 'days', value: '1' },
+];
+
+const operatorOptions = [
+    { key: '0', text: 'before', value: '0' },
+    { key: '1', text: 'after', value: '1' },
+];
 
 class DateQueryBeforeAfter extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            date: '',
-            time: '',
-            dateTime: '',
-            datesRange: '',
-            quantum: '',
-            uot: '',
+            daysOrHours: '',
+            unitOfTime: '',
+            operator: '',
+            userDateTime: '',
         };
     }
 
@@ -28,59 +32,73 @@ class DateQueryBeforeAfter extends React.Component {
 
     // see https://react.semantic-ui.com/modules/dropdown/#types-selection
 
-    //92: Solving Content issues: converting onFormSubmit(event) {} to onFormSubmit = (event) => {} binds
-    //'this' reference in the function to instance of SearchBar
     onFormSubmit = (event) => {
-        //onFormSubmit(event) {
-        //prevents form submission after user hits enter form submission forces the page to refresh
-        // https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
         event.preventDefault();
-        // call App.onSearchSubmit(term). Props are arguments passed into React components.
-        this.props.onSubmit(this.state.quantum, this.state.uot);
+        this.props.onSubmit(
+            this.state.daysOrHours,
+            this.state.unitOfTime,
+            this.state.operator,
+            this.state.userDateTime
+        );
     };
 
     render() {
         return (
-            <div class="ui form">
-                <div class="fields">
-                    <div class="field">
+            <form onSubmit={this.onFormSubmit} className="ui form">
+                <div className="fields">
+                    <div className="field">
                         <label>Value</label>
-                        <input type="text" placeholder="Number of Days/Hours" />
+                        <div className="ui input">
+                            <Input
+                                name="daysOrHours"
+                                type="text"
+                                placeholder="Number of Hours/Days"
+                                value={this.state.daysOrHours}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                    <div class="field">
+                    <div className="field">
                         <label>Unit of Time</label>
-                        <select class="ui dropdown">
-                            <option value="">Select</option>
-                            <option value="0">hours</option>
-                            <option value="1">days</option>
-                        </select>
+                        <Dropdown
+                            name="unitOfTime"
+                            placeholder="Hours/Days"
+                            search
+                            selection
+                            options={unitOfTimeOptions}
+                            onChange={this.handleChange}
+                        />
                     </div>
-                    <div class="field">
-                        <label>Operation</label>
-                        <select class="ui dropdown">
-                            <option value="">Select</option>
-                            <option value="0">before</option>
-                            <option value="1">after</option>
-                        </select>
+                    <div className="field">
+                        <label>Operator</label>
+                        <Dropdown
+                            name="operator"
+                            placeholder="Before/After"
+                            search
+                            selection
+                            options={operatorOptions}
+                            onChange={this.handleChange}
+                        />
                     </div>
-                    <div class="field">
+
+                    <div className="field">
                         <label>Date/Time</label>
-                        <DateTimeInput
-                            name="dateTime"
+                        <DateInput
+                            name="userDateTime"
                             placeholder="Date Time"
-                            value={this.state.dateTime}
+                            value={this.state.userDateTime}
                             iconPosition="left"
                             onChange={this.handleChange}
                         />
                     </div>
-                    <div class="field">
+                    <div className="field">
                         <label>&nbsp;</label>
-                        <button class="ui button" type="submit">
+                        <button className="ui button" type="submit">
                             Submit
                         </button>
                     </div>
                 </div>
-            </div>
+            </form>
         );
     }
 }
