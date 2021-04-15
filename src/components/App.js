@@ -1,8 +1,9 @@
 import React from 'react';
 import DateQueryBeforeAfter from './DateQueryBeforeAfter';
+import unsplash from '../api/unsplash';
 
 class App extends React.Component {
-    state = { queryResponse: [] };
+    state = { queryResponse: '' };
 
     onDateQuerySubmit = async (
         daysOrHours,
@@ -11,18 +12,18 @@ class App extends React.Component {
         userDateTime
     ) => {
         //https://unsplash.com/documentation#search-photos
-        // const queryResponse = await unsplash.get('/search/photos', {
-        //     params: {
-        //         query: term,
-        //     },
-        // });
+        const response = await unsplash.get('/calculate', {
+            params: {
+                daysOrHours,
+                unitOfTime,
+                operator,
+                userDateTime,
+            },
+        });
         // for this.setState to work the function should be an => function
-        console.log('daysOrHours: ' + daysOrHours);
-        console.log('unitOfTime: ' + unitOfTime);
-        console.log('operator: ' + operator);
-        console.log('userDateTime: ' + userDateTime);
+        console.log('Answer from backend is: ' + JSON.stringify(response));
 
-        this.setState({ queryResponse: 'dummy result' });
+        this.setState({ queryResponse: response.data });
     };
 
     render() {
@@ -30,7 +31,7 @@ class App extends React.Component {
             // Attributes of SearchBar like onSubmit are sent inside a 'props' object to SearchBar Component
             <div className="ui container" style={{ marginTop: '10px' }}>
                 <DateQueryBeforeAfter onSubmit={this.onDateQuerySubmit} />
-                Found: {this.state.queryResponse}
+                Found: {this.state.queryResponse.answer}
             </div>
         );
     }
