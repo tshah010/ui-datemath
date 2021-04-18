@@ -8,7 +8,7 @@ const unitOfTimeOptions = [
 ];
 
 const operatorOptions = [
-    { key: '0', text: 'before', value: '0' },
+    { key: '0', text: 'before', value: '-1' },
     { key: '1', text: 'after', value: '1' },
 ];
 
