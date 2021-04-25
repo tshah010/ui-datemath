@@ -11,29 +11,41 @@ class App extends React.Component {
         operator,
         userDateTime
     ) => {
-        //https://unsplash.com/documentation#search-photos
-        const response = await unsplash.get('/calculate', {
-            params: {
-                daysOrHours,
-                unitOfTime,
-                operator,
-                userDateTime,
-            },
-        });
-        // for this.setState to work the function should be an => function
-        console.log('Answer from backend is: ' + JSON.stringify(response));
-
-        this.setState({ queryResponse: response.data });
+        await unsplash
+            .get('/calculate', {
+                params: {
+                    daysOrHours,
+                    unitOfTime,
+                    operator,
+                    userDateTime,
+                },
+            })
+            .then((response) => {
+                this.setState({ queryResponse: response.data });
+            })
+            .catch((error) => {
+                this.setState({ queryResponse: error.response.data });
+            });
     };
 
     render() {
-        const answer = this.state.queryResponse.answer;
-        let answerLabel;
-        if (answer) {
-            answerLabel = <div class="ui blue big label">{answer}</div>;
-        } else {
-            answerLabel = '';
+        const apiResponse = this.state.queryResponse;
+        let answerLabel = '';
+        if (apiResponse.answer) {
+            answerLabel = (
+                <div class="ui blue big label">{apiResponse.answer}</div>
+            );
+        } else if (apiResponse.errorResponse) {
+            answerLabel = (
+                <div class="ui yellow medium label">
+                    id:{apiResponse.errorResponse.id}
+                    <div class="detail">
+                        {apiResponse.errorResponse.message}
+                    </div>
+                </div>
+            );
         }
+
         return (
             // Attributes of SearchBar like onSubmit are sent inside a 'props' object to SearchBar Component
             <div className="ui container" style={{ marginTop: '10px' }}>

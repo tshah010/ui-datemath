@@ -35,7 +35,6 @@ class DateQueryBeforeAfter extends React.Component {
     };
 
     // see https://react.semantic-ui.com/modules/dropdown/#types-selection
-
     onFormSubmit = (event) => {
         event.preventDefault();
         this.props.onSubmit(
@@ -57,7 +56,14 @@ class DateQueryBeforeAfter extends React.Component {
                             type="text"
                             placeholder="e.g 5"
                             value={this.state.daysOrHours}
-                            onChange={this.handleChange}
+                            onChange={(event) =>
+                                this.setState({
+                                    daysOrHours: event.target.value.replace(
+                                        /\D/,
+                                        ''
+                                    ),
+                                })
+                            }
                         />
                     </div>
                     <div className="field">
