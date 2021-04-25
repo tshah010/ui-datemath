@@ -1,10 +1,14 @@
 import React from 'react';
-import { DateInput } from 'semantic-ui-calendar-react';
+import { DateTimeInput } from 'semantic-ui-calendar-react';
 import { Dropdown, Input } from 'semantic-ui-react';
 
 const unitOfTimeOptions = [
-    { key: '0', text: 'hours', value: '0' },
-    { key: '1', text: 'days', value: '1' },
+    { key: '0', text: 'minutes', value: '0' },
+    { key: '1', text: 'hours', value: '1' },
+    { key: '2', text: 'days', value: '2' },
+    { key: '3', text: 'weeks', value: '3' },
+    { key: '4', text: 'months', value: '4' },
+    { key: '5', text: 'years', value: '5' },
 ];
 
 const operatorOptions = [
@@ -47,22 +51,19 @@ class DateQueryBeforeAfter extends React.Component {
             <form onSubmit={this.onFormSubmit} className="ui form">
                 <div className="fields">
                     <div className="field">
-                        <label>Value</label>
-                        <div className="ui input">
-                            <Input
-                                name="daysOrHours"
-                                type="text"
-                                placeholder="Number of Hours/Days"
-                                value={this.state.daysOrHours}
-                                onChange={this.handleChange}
-                            />
-                        </div>
+                        <Input
+                            focus
+                            name="daysOrHours"
+                            type="text"
+                            placeholder="e.g 5"
+                            value={this.state.daysOrHours}
+                            onChange={this.handleChange}
+                        />
                     </div>
                     <div className="field">
-                        <label>Unit of Time</label>
                         <Dropdown
                             name="unitOfTime"
-                            placeholder="Hours/Days"
+                            placeholder="mins/hrs/days"
                             search
                             selection
                             options={unitOfTimeOptions}
@@ -70,10 +71,9 @@ class DateQueryBeforeAfter extends React.Component {
                         />
                     </div>
                     <div className="field">
-                        <label>Operator</label>
                         <Dropdown
                             name="operator"
-                            placeholder="Before/After"
+                            placeholder="before/after"
                             search
                             selection
                             options={operatorOptions}
@@ -82,19 +82,18 @@ class DateQueryBeforeAfter extends React.Component {
                     </div>
 
                     <div className="field">
-                        <label>Date/Time</label>
-                        <DateInput
+                        <DateTimeInput
                             name="userDateTime"
-                            placeholder="Date Time"
+                            dateTimeFormat="MM-DD-YYYY HH:mm"
+                            placeholder="Date"
                             value={this.state.userDateTime}
                             iconPosition="left"
                             onChange={this.handleChange}
                         />
                     </div>
                     <div className="field">
-                        <label>&nbsp;</label>
                         <button className="ui button" type="submit">
-                            Submit
+                            is
                         </button>
                     </div>
                 </div>

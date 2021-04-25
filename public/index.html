@@ -1,47 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
+<!-- saved from url=(0043)https://semantic-ui.com/examples/fixed.html -->
+<html>
+    <head lang="en">
         <meta charset="utf-8" />
         <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+        <!--
+          manifest.json provides metadata used when your web app is installed on a
+          user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+        -->
+        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+        <!--
+          Notice the use of %PUBLIC_URL% in the tags above.
+          It will be replaced with the URL of the `public` folder during the build.
+          Only files inside the `public` folder can be referenced from the HTML.
+
+          Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+          work correctly both with client-side routing and a non-root public URL.
+          Learn how to configure a non-root public URL by running `npm run build`.
+        -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <!-- Standard Meta -->
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
         />
+
+        <!-- Site Properties -->
+        <title>Date Math</title>
         <meta
             name="description"
             content="Web site for Date and Time calculations."
         />
-        <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
         <script src="https://cdn.jsdelivr.net/npm/semantic-ui-calendar-react@latest/dist/umd/semantic-ui-calendar-react.js"></script>
-        <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-        <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+        />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="./index2_files/reset.css"
+        />
+        <link rel="stylesheet" type="text/css" href="./index2_files/site.css" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-        <title>Date Math</title>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="./index2_files/container.css"
+        />
+        <link rel="stylesheet" type="text/css" href="./index2_files/grid.css" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="./index2_files/header.css"
+        />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="./index2_files/image.css"
+        />
+        <link rel="stylesheet" type="text/css" href="./index2_files/menu.css" />
+
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="./index2_files/divider.css"
+        />
+        <link rel="stylesheet" type="text/css" href="./index2_files/list.css" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="./index2_files/segment.css"
+        />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="./index2_files/dropdown.css"
+        />
+        <link rel="stylesheet" type="text/css" href="./index2_files/icon.css" />
+
+        <style type="text/css">
+            body {
+                background-color: #ffffff;
+            }
+            .ui.menu .item img.logo {
+                margin-right: 1.5em;
+            }
+            .main.container {
+                margin-top: 7em;
+            }
+            .wireframe {
+                margin-top: 2em;
+            }
+            .ui.footer.segment {
+                margin: 5em 0em 0em;
+                padding: 5em 0em;
+            }
+        </style>
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root"></div>
-        <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    --></body>
+        <div class="ui fixed menu">
+            <div class="ui container">
+                <a href="/" class="header item">
+                    <img class="logo" src="logo12x12.png" />
+                    Date Math
+                </a>
+                <a href="/" class="item">Home</a>
+                <a
+                    href="https://semantic-ui.com/examples/fixed.html#"
+                    class="item"
+                    >About</a
+                >
+            </div>
+        </div>
+        <div class="ui main text container">
+            <div id="root"></div>
+        </div>
+    </body>
 </html>

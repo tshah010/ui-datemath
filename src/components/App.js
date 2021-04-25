@@ -27,11 +27,18 @@ class App extends React.Component {
     };
 
     render() {
+        const answer = this.state.queryResponse.answer;
+        let answerLabel;
+        if (answer) {
+            answerLabel = <div class="ui blue big label">{answer}</div>;
+        } else {
+            answerLabel = '';
+        }
         return (
             // Attributes of SearchBar like onSubmit are sent inside a 'props' object to SearchBar Component
             <div className="ui container" style={{ marginTop: '10px' }}>
                 <DateQueryBeforeAfter onSubmit={this.onDateQuerySubmit} />
-                Found: {this.state.queryResponse.answer}
+                {answerLabel}
             </div>
         );
     }
