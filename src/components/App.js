@@ -1,5 +1,7 @@
 import React from 'react';
 import DateQueryBeforeAfter from './DateQueryBeforeAfter';
+import DateQueryBeforeAfterAnswer from './DateQueryBeforeAfterAnswer';
+
 import unsplash from '../api/unsplash';
 
 class App extends React.Component {
@@ -29,30 +31,24 @@ class App extends React.Component {
     };
 
     render() {
-        const apiResponse = this.state.queryResponse;
-        let answerLabel = '';
-        if (apiResponse.answer) {
-            answerLabel = (
-                <div class="ui blue big label">{apiResponse.answer}</div>
+        if (this.state.queryResponse) {
+            return (
+                // Attributes of SearchBar like onSubmit are sent inside a 'props' object to SearchBar Component
+                <div className="ui container" style={{ marginTop: '10px' }}>
+                    <DateQueryBeforeAfter onSubmit={this.onDateQuerySubmit} />
+                    <DateQueryBeforeAfterAnswer
+                        response={this.state.queryResponse}
+                    />
+                </div>
             );
-        } else if (apiResponse.errorResponse) {
-            answerLabel = (
-                <div class="ui yellow medium label">
-                    id:{apiResponse.errorResponse.id}
-                    <div class="detail">
-                        {apiResponse.errorResponse.message}
-                    </div>
+        } else {
+            return (
+                // Attributes of SearchBar like onSubmit are sent inside a 'props' object to SearchBar Component
+                <div className="ui container" style={{ marginTop: '10px' }}>
+                    <DateQueryBeforeAfter onSubmit={this.onDateQuerySubmit} />
                 </div>
             );
         }
-
-        return (
-            // Attributes of SearchBar like onSubmit are sent inside a 'props' object to SearchBar Component
-            <div className="ui container" style={{ marginTop: '10px' }}>
-                <DateQueryBeforeAfter onSubmit={this.onDateQuerySubmit} />
-                {answerLabel}
-            </div>
-        );
     }
 }
 

@@ -54,7 +54,7 @@ class DateQueryBeforeAfter extends React.Component {
                             focus
                             name="daysOrHours"
                             type="text"
-                            placeholder="e.g 5"
+                            placeholder="example: 5"
                             value={this.state.daysOrHours}
                             onChange={(event) =>
                                 this.setState({
@@ -69,7 +69,7 @@ class DateQueryBeforeAfter extends React.Component {
                     <div className="field">
                         <Dropdown
                             name="unitOfTime"
-                            placeholder="mins/hrs/days"
+                            placeholder="mins/hrs/days..."
                             search
                             selection
                             options={unitOfTimeOptions}
@@ -79,14 +79,13 @@ class DateQueryBeforeAfter extends React.Component {
                     <div className="field">
                         <Dropdown
                             name="operator"
-                            placeholder="before/after"
+                            placeholder="before or after"
                             search
                             selection
                             options={operatorOptions}
                             onChange={this.handleChange}
                         />
                     </div>
-
                     <div className="field">
                         <DateTimeInput
                             name="userDateTime"
@@ -99,7 +98,7 @@ class DateQueryBeforeAfter extends React.Component {
                     </div>
                     <div className="field">
                         <button className="ui button" type="submit">
-                            is
+                            is?
                         </button>
                     </div>
                 </div>
