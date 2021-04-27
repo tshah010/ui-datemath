@@ -11,13 +11,13 @@ class DateQueryBeforeAfterAnswer extends React.Component {
         let answerLabel = '';
         if (apiResponse.answer) {
             answerLabel = (
-                <div class="ui blue big label">{apiResponse.answer}</div>
+                <div className="ui blue big label">{apiResponse.answer}</div>
             );
         } else if (apiResponse.errorResponse) {
             answerLabel = (
-                <div class="ui yellow medium label">
+                <div className="ui yellow medium label">
                     id:{apiResponse.errorResponse.id}
-                    <div class="detail">
+                    <div className="detail">
                         {apiResponse.errorResponse.message}
                     </div>
                 </div>
