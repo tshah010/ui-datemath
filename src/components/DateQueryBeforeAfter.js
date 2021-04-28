@@ -5,6 +5,8 @@ import DateQueryBeforeAfterAnswer from './DateQueryBeforeAfterAnswer';
 
 import unsplash from '../api/unsplash';
 
+var _ = require('lodash');
+
 const unitOfTimeOptions = [
     { key: '0', text: 'minutes', value: '0' },
     { key: '1', text: 'hours', value: '1' },
@@ -51,7 +53,11 @@ class DateQueryBeforeAfter extends React.Component {
                 this.setState({ queryResponse: response.data });
             })
             .catch((error) => {
-                this.setState({ queryResponse: error.response.data });
+                if (_.isUndefined(error.response)) {
+                    this.setState({ queryResponse: error.message });
+                } else {
+                    this.setState({ queryResponse: error.response.data });
+                }
             });
     };
 
@@ -64,6 +70,9 @@ class DateQueryBeforeAfter extends React.Component {
     // see https://react.semantic-ui.com/modules/dropdown/#types-selection
     onFormSubmit = (event) => {
         event.preventDefault();
+        if (_.isEmpty(this.state.userDateTime)) {
+            console.log('User date is null');
+        }
         this.onDateQuerySubmit(
             this.state.daysOrHours,
             this.state.unitOfTime,
@@ -86,52 +95,66 @@ class DateQueryBeforeAfter extends React.Component {
         return (
             <div>
                 <form onSubmit={this.onFormSubmit} className="ui form">
-                    <Input
-                        focus
-                        name="daysOrHours"
-                        type="text"
-                        placeholder="example: 5"
-                        value={this.state.daysOrHours}
-                        onChange={(event) =>
-                            this.setState({
-                                daysOrHours: event.target.value.replace(
-                                    /\D/,
-                                    ''
-                                ),
-                            })
-                        }
-                    />
-
-                    <Dropdown
-                        name="unitOfTime"
-                        placeholder="mins/hrs/days..."
-                        search
-                        selection
-                        options={unitOfTimeOptions}
-                        onChange={this.handleChange}
-                    />
-
-                    <Dropdown
-                        name="operator"
-                        placeholder="before or after"
-                        search
-                        selection
-                        options={operatorOptions}
-                        onChange={this.handleChange}
-                    />
-
-                    <DateTimeInput
-                        name="userDateTime"
-                        dateTimeFormat="MM-DD-YYYY HH:mm"
-                        placeholder="Date"
-                        value={this.state.userDateTime}
-                        iconPosition="left"
-                        onChange={this.handleChange}
-                    />
-
-                    <button className="ui button" type="submit">
-                        is?
-                    </button>
+                    <div className="fields">
+                        <div className="field">
+                            <Input
+                                focus
+                                name="daysOrHours"
+                                type="text"
+                                placeholder="example: 5"
+                                value={this.state.daysOrHours}
+                                onChange={(event) =>
+                                    this.setState({
+                                        daysOrHours: event.target.value.replace(
+                                            /\D/,
+                                            ''
+                                        ),
+                                    })
+                                }
+                            />
+                        </div>
+                        <div className="field">
+                            <Dropdown
+                                name="unitOfTime"
+                                placeholder="mins/hrs/days..."
+                                search
+                                selection
+                                options={unitOfTimeOptions}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div className="field">
+                            <Dropdown
+                                name="operator"
+                                placeholder="before or after"
+                                search
+                                selection
+                                options={operatorOptions}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div className="field">
+                            <DateTimeInput
+                                name="userDateTime"
+                                dateTimeFormat="MM-DD-YYYY HH:mm"
+                                placeholder="Date"
+                                value={this.state.userDateTime}
+                                iconPosition="left"
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div className="field">
+                            <button
+                                className="ui animated button"
+                                type="submit"
+                            >
+                                <div className="visible content">is?</div>
+                                <div className="hidden content">
+                                    <i className="right arrow icon"></i>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
                 </form>
                 {answerComponent}
             </div>
