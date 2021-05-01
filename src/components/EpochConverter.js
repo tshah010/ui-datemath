@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from 'semantic-ui-react';
+import { Input, Label, Button } from 'semantic-ui-react';
 import Answer from './Answer';
 import moment from 'moment';
 
@@ -16,16 +16,23 @@ class EpochConverter extends React.Component {
     onFormSubmit = (event) => {
         event.preventDefault();
         let localDateTime = moment(this.state.epochSeconds * 1000).format(
-            'ddd, d MMM YYYY HH:mm:ss Z'
+            'ddd, d MMM YYYY HH:mm:ss Z',
+            true
         );
-        console.log(localDateTime);
         this.setState({ localDateTime: localDateTime });
     };
 
     render() {
         let answerComponent;
+        let answerToDisplay;
         if (this.state.localDateTime) {
-            let answerToDisplay = { answer: this.state.localDateTime };
+            console.log(this.state.localDateTime);
+            if (this.state.localDateTime === 'Invalid date') {
+                answerToDisplay = 'Invalid Date';
+            } else {
+                answerToDisplay = { answer: this.state.localDateTime };
+            }
+
             answerComponent = <Answer response={answerToDisplay} />;
         }
 
@@ -36,8 +43,8 @@ class EpochConverter extends React.Component {
                         <div className="fields">
                             <div className="field">
                                 <Input
-                                    focus
                                     name="epochSeconds"
+                                    labelPosition="right"
                                     type="text"
                                     placeholder="seconds"
                                     value={this.state.epochSeconds}
@@ -49,18 +56,13 @@ class EpochConverter extends React.Component {
                                             ),
                                         })
                                     }
-                                />
+                                >
+                                    <Label basic>Local Time for Epoch</Label>
+                                    <input />
+                                </Input>
                             </div>
                             <div className="field">
-                                <button
-                                    className="ui animated button"
-                                    type="submit"
-                                >
-                                    <div className="visible content">is?</div>
-                                    <div className="hidden content">
-                                        <i className="right arrow icon"></i>
-                                    </div>
-                                </button>
+                                <Button>is?</Button>
                             </div>
                         </div>
                     </form>
