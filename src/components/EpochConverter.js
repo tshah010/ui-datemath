@@ -37,38 +37,43 @@ class EpochConverter extends React.Component {
         }
 
         return (
-            <div className="ui grid">
-                <div className="centered row">
-                    <form onSubmit={this.onFormSubmit} className="ui form">
-                        <div className="fields">
-                            <div className="field">
-                                <Input
-                                    name="epochSeconds"
-                                    labelPosition="right"
-                                    type="text"
-                                    placeholder="seconds"
-                                    value={this.state.epochSeconds}
-                                    onChange={(event) =>
-                                        this.setState({
-                                            epochSeconds: event.target.value.replace(
-                                                /\D/,
-                                                ''
-                                            ),
-                                        })
-                                    }
-                                >
-                                    <Label basic>Local Time for Epoch</Label>
-                                    <input />
-                                </Input>
-                            </div>
-                            <div className="field">
-                                <Button>is?</Button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div className="centered row" style={{ padding: 0 }}>
-                    {answerComponent}
+            <div className="ui two column centered grid">
+                <div className="two column centered row">
+                    <div className="column" style={{ textAlign: 'right' }}>
+                        <form onSubmit={this.onFormSubmit} className="ui form">
+                            <Input
+                                name="epochSeconds"
+                                labelPosition="left"
+                                type="text"
+                                placeholder="seconds"
+                                value={this.state.epochSeconds}
+                                onChange={(event) =>
+                                    this.setState({
+                                        epochSeconds: event.target.value.replace(
+                                            /\D/,
+                                            ''
+                                        ),
+                                    })
+                                }
+                            >
+                                <Label basic>Local Time for Epoch</Label>
+                                <input style={{ width: '10%' }} />
+                            </Input>
+                            &nbsp;
+                            <button
+                                className="ui animated button"
+                                type="submit"
+                            >
+                                <div className="visible content">is?</div>
+                                <div className="hidden content">
+                                    <i className="right arrow icon"></i>
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+                    <div className="column">
+                        <div>{answerComponent}</div>
+                    </div>
                 </div>
             </div>
         );
