@@ -1,7 +1,7 @@
 import React from 'react';
 import { DateTimeInput } from 'semantic-ui-calendar-react';
 import { Dropdown, Input } from 'semantic-ui-react';
-import DateQueryBeforeAfterAnswer from './DateQueryBeforeAfterAnswer';
+import Answer from './Answer';
 
 import unsplash from '../api/unsplash';
 
@@ -85,11 +85,7 @@ class DateQueryBeforeAfter extends React.Component {
         // If server responded with answer or error then show answer component
         let answerComponent;
         if (this.state.queryResponse) {
-            answerComponent = (
-                <DateQueryBeforeAfterAnswer
-                    response={this.state.queryResponse}
-                />
-            );
+            answerComponent = <Answer response={this.state.queryResponse} />;
         }
 
         return (
@@ -162,7 +158,7 @@ class DateQueryBeforeAfter extends React.Component {
                     className="three column centered row"
                     style={{ padding: 0 }}
                 >
-                    <div className="column">{answerComponent}</div>
+                    {answerComponent}
                 </div>
             </div>
         );

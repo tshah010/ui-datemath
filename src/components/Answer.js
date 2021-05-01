@@ -1,6 +1,6 @@
 import React from 'react';
 
-class DateQueryBeforeAfterAnswer extends React.Component {
+class Answer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -28,4 +28,4 @@ class DateQueryBeforeAfterAnswer extends React.Component {
     }
 }
 
-export default DateQueryBeforeAfterAnswer;
+export default Answer;
