@@ -1,50 +1,39 @@
 import React from 'react';
 import { DateTimeInput } from 'semantic-ui-calendar-react';
-import { Dropdown, Input } from 'semantic-ui-react';
-import _ from 'lodash';
-import Answer from './Answer';
+import { Input, Label, Dropdown } from 'semantic-ui-react';
 import unsplash from '../api/unsplash';
+import _ from 'lodash';
 
-const unitOfTimeOptions = [
-    { key: '0', text: 'minutes', value: '0' },
-    { key: '1', text: 'hours', value: '1' },
-    { key: '2', text: 'days', value: '2' },
-    { key: '3', text: 'weeks', value: '3' },
-    { key: '4', text: 'months', value: '4' },
-    { key: '5', text: 'years', value: '5' },
-];
+import Answer from './Answer';
 
 const operatorOptions = [
-    { key: '0', text: 'before', value: '-1' },
-    { key: '1', text: 'after', value: '1' },
+    { key: '0', text: '-', value: '-1' },
+    { key: '1', text: '+', value: '1' },
 ];
 
-class DateQueryBeforeAfter extends React.Component {
+class AddSubtractDates extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            daysOrHours: '',
-            unitOfTime: '',
+            userStartDateTime: '',
+            userStartEndTime: '',
             operator: '',
-            userDateTime: '',
             queryResponse: '',
         };
     }
 
     onDateQuerySubmit = async (
-        daysOrHours,
-        unitOfTime,
-        operator,
-        userDateTime
+        userStartDateTime,
+        userStartEndTime,
+        operator
     ) => {
         await unsplash
-            .get('/calculate', {
+            .get('/calculate-date-difference', {
                 params: {
-                    daysOrHours,
-                    unitOfTime,
+                    userStartDateTime,
+                    userStartEndTime,
                     operator,
-                    userDateTime,
                 },
             })
             .then((response) => {
@@ -72,10 +61,9 @@ class DateQueryBeforeAfter extends React.Component {
             console.log('User date is null');
         }
         this.onDateQuerySubmit(
-            this.state.daysOrHours,
-            this.state.unitOfTime,
-            this.state.operator,
-            this.state.userDateTime
+            this.state.userStartDateTime,
+            this.state.userStartEndTime,
+            this.state.operator
         );
     };
 
@@ -92,36 +80,19 @@ class DateQueryBeforeAfter extends React.Component {
                     <form onSubmit={this.onFormSubmit} className="ui form">
                         <div className="fields">
                             <div className="field">
-                                <Input
-                                    focus
-                                    name="daysOrHours"
-                                    type="text"
-                                    placeholder="example: 5"
-                                    value={this.state.daysOrHours}
-                                    onChange={(event) =>
-                                        this.setState({
-                                            daysOrHours: event.target.value.replace(
-                                                /\D/,
-                                                ''
-                                            ),
-                                        })
-                                    }
-                                />
-                            </div>
-                            <div className="field">
-                                <Dropdown
-                                    name="unitOfTime"
-                                    placeholder="mins/hrs/days..."
-                                    search
-                                    selection
-                                    options={unitOfTimeOptions}
+                                <DateTimeInput
+                                    name="userStartDateTime"
+                                    dateTimeFormat="MM-DD-YYYY HH:mm"
+                                    placeholder="Date"
+                                    value={this.state.userStartDateTime}
+                                    iconPosition="left"
                                     onChange={this.handleChange}
                                 />
                             </div>
                             <div className="field">
                                 <Dropdown
                                     name="operator"
-                                    placeholder="before or after"
+                                    placeholder="+/="
                                     search
                                     selection
                                     options={operatorOptions}
@@ -130,10 +101,10 @@ class DateQueryBeforeAfter extends React.Component {
                             </div>
                             <div className="field">
                                 <DateTimeInput
-                                    name="userDateTime"
+                                    name="userEndDateTime"
                                     dateTimeFormat="MM-DD-YYYY HH:mm"
                                     placeholder="Date"
-                                    value={this.state.userDateTime}
+                                    value={this.state.userEndDateTime}
                                     iconPosition="left"
                                     onChange={this.handleChange}
                                 />
@@ -163,4 +134,4 @@ class DateQueryBeforeAfter extends React.Component {
     }
 }
 
-export default DateQueryBeforeAfter;
+export default AddSubtractDates;

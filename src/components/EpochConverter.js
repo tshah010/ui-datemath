@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Label, Button } from 'semantic-ui-react';
+import { Input, Label } from 'semantic-ui-react';
 import Answer from './Answer';
 import moment from 'moment';
 

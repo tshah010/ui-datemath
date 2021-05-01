@@ -31,7 +31,7 @@
         <title>Date Math</title>
         <meta
             name="description"
-            content="Web site for Date and Time calculations."
+            content="Web site for Date and Time calculations. Convert Unix Epoch Time to Local Date."
         />
         <script src="https://cdn.jsdelivr.net/npm/semantic-ui-calendar-react@latest/dist/umd/semantic-ui-calendar-react.js"></script>
         <link
@@ -150,13 +150,19 @@
                 </div>
             </div>
             <div class="ui hidden divider"></div>
+            <div class="ui horizontal divider">
+                Add or Subtract Time from Date
+            </div>
             <div id="date-query-before-after"></div>
             <div class="ui hidden divider"></div>
-            <div class="ui divider"></div>
-            <div class="ui hidden divider"></div>
+            <div class="ui horizontal divider">
+                Convert Unix Epoch Time to Local Time
+            </div>
             <div id="epoch-time-converter"></div>
             <div class="ui hidden divider"></div>
-            <div class="ui divider"></div>
+            <div class="ui hidden divider"></div>
+            <div class="ui horizontal divider">Add or Subtract Dates</div>
+            <div id="add-subtract-dates"></div>
         </div>
         <footer>
             <div class="ui container">
