@@ -1,35 +1,43 @@
 import React from 'react';
-import DateQueryBeforeAfter from './components/DateQueryBeforeAfter';
-import EpochConverter from './components/EpochConverter';
-import AddSubtractDates from './components/AddSubtractDates';
+import Home from './components/Home.js';
+import About from './components/About.js';
+
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 const App = () => {
     return (
-        <div className="ui main container">
-            <div className="ui grid">
-                <div className="centered row">
-                    <img
-                        className="logo"
-                        alt="dateMath.net"
-                        src="logo327x89.png"
-                    />
+        <Router>
+            <div>
+                <div className="ui fixed inverted menu">
+                    <div className="ui container">
+                        <Link to="/" className="header item">
+                            <img
+                                className="logo"
+                                alt="datamath.net logo"
+                                src="logo12x12.png"
+                            />
+                            dateMath
+                        </Link>
+                        <Link to="/" className="item">
+                            Home
+                        </Link>
+                        <Link to="/about" className="item">
+                            About
+                        </Link>
+                    </div>
                 </div>
+
+                <Switch>
+                    <Route path="/about">
+                        <About />
+                    </Route>
+
+                    <Route path="/">
+                        <Home />
+                    </Route>
+                </Switch>
             </div>
-            <div className="ui hidden divider"></div>
-            <div className="ui horizontal divider">
-                Add or Subtract Time from Date
-            </div>
-            <DateQueryBeforeAfter />
-            <div className="ui hidden divider"></div>
-            <div className="ui horizontal divider">
-                Convert Unix Epoch Time to Local Time
-            </div>
-            <EpochConverter />
-            <div className="ui hidden divider"></div>
-            <div className="ui hidden divider"></div>
-            <div className="ui horizontal divider">Subtract Dates</div>
-            <AddSubtractDates />
-        </div>
+        </Router>
     );
 };
 
