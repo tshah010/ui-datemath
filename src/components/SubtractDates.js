@@ -1,11 +1,13 @@
 import React from 'react';
+import ReactGA from 'react-ga';
+
 import { DateTimeInput } from 'semantic-ui-calendar-react';
 import unsplash from '../api/unsplash';
 import _ from 'lodash';
 
 import Answer from './Answer';
 
-class AddSubtractDates extends React.Component {
+class SubtractDates extends React.Component {
     constructor(props) {
         super(props);
 
@@ -15,6 +17,17 @@ class AddSubtractDates extends React.Component {
             queryResponse: '',
         };
     }
+
+    recordGAEvent = (name) => {
+        if (name === 'submitButton') {
+            console.log('Sent GA event');
+            ReactGA.event({
+                category: 'User',
+                action: 'Clicked Button',
+                label: 'EpochConverter Component Submit Button',
+            });
+        }
+    };
 
     onDateQuerySubmit = async (userStartDateTime, userEndDateTime) => {
         await unsplash
@@ -98,6 +111,9 @@ class AddSubtractDates extends React.Component {
                                 <button
                                     className="ui animated button"
                                     type="submit"
+                                    onClick={(e) =>
+                                        this.recordGAEvent('submitButton')
+                                    }
                                 >
                                     <div className="visible content">is?</div>
                                     <div className="hidden content">
@@ -118,4 +134,4 @@ class AddSubtractDates extends React.Component {
     }
 }
 
-export default AddSubtractDates;
+export default SubtractDates;

@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from './components/Home.js';
 import About from './components/About.js';
+import GA from './utils/RouteChangeTracker.js';
 
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 

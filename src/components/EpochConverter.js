@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactGA from 'react-ga';
+
 import { Input, Label } from 'semantic-ui-react';
 import Answer from './Answer';
 import moment from 'moment';
@@ -12,6 +14,16 @@ class EpochConverter extends React.Component {
             localDateTime: '',
         };
     }
+    recordGAEvent = (name) => {
+        if (name === 'submitButton') {
+            console.log('Sent GA event');
+            ReactGA.event({
+                category: 'User',
+                action: 'Clicked Button',
+                label: 'EpochConverter Component Submit Button',
+            });
+        }
+    };
 
     onFormSubmit = (event) => {
         event.preventDefault();
@@ -62,6 +74,9 @@ class EpochConverter extends React.Component {
                             <button
                                 className="ui animated button"
                                 type="submit"
+                                onClick={(e) =>
+                                    this.recordGAEvent('submitButton')
+                                }
                             >
                                 <div className="visible content">is?</div>
                                 <div className="hidden content">

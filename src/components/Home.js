@@ -1,7 +1,7 @@
 import React from 'react';
 import DateQueryBeforeAfter from './DateQueryBeforeAfter';
 import EpochConverter from './EpochConverter';
-import AddSubtractDates from './AddSubtractDates';
+import SubtractDates from './SubtractDates';
 
 const Home = () => {
     return (
@@ -28,7 +28,7 @@ const Home = () => {
             <div className="ui hidden divider"></div>
             <div className="ui hidden divider"></div>
             <div className="ui horizontal divider">Subtract Dates</div>
-            <AddSubtractDates />
+            <SubtractDates />
         </div>
     );
 };
