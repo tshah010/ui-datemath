@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactGA from 'react-ga';
-
 import { DateTimeInput } from 'semantic-ui-calendar-react';
-import unsplash from '../api/unsplash';
 import _ from 'lodash';
 
 import Answer from './Answer';
+import recordGAEvent from '../utils/RecordGAEvent';
+import unsplash from '../api/unsplash';
 
 class SubtractDates extends React.Component {
     constructor(props) {
@@ -20,7 +20,6 @@ class SubtractDates extends React.Component {
 
     recordGAEvent = (name) => {
         if (name === 'submitButton') {
-            console.log('Sent GA event');
             ReactGA.event({
                 category: 'User',
                 action: 'Clicked Button',
@@ -112,7 +111,9 @@ class SubtractDates extends React.Component {
                                     className="ui animated button"
                                     type="submit"
                                     onClick={(e) =>
-                                        this.recordGAEvent('submitButton')
+                                        recordGAEvent(
+                                            'SubtractDateSubmitButton'
+                                        )
                                     }
                                 >
                                     <div className="visible content">is?</div>

@@ -5,6 +5,8 @@ import { Input, Label } from 'semantic-ui-react';
 import Answer from './Answer';
 import moment from 'moment';
 
+import recordGAEvent from '../utils/RecordGAEvent';
+
 class EpochConverter extends React.Component {
     constructor(props) {
         super(props);
@@ -16,7 +18,6 @@ class EpochConverter extends React.Component {
     }
     recordGAEvent = (name) => {
         if (name === 'submitButton') {
-            console.log('Sent GA event');
             ReactGA.event({
                 category: 'User',
                 action: 'Clicked Button',
@@ -75,7 +76,7 @@ class EpochConverter extends React.Component {
                                 className="ui animated button"
                                 type="submit"
                                 onClick={(e) =>
-                                    this.recordGAEvent('submitButton')
+                                    recordGAEvent('EpochConverterSubmitButton')
                                 }
                             >
                                 <div className="visible content">is?</div>

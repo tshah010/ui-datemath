@@ -1,11 +1,11 @@
 import React from 'react';
-import ReactGA from 'react-ga';
-
 import { DateTimeInput } from 'semantic-ui-calendar-react';
 import { Dropdown, Input } from 'semantic-ui-react';
 import _ from 'lodash';
 import Answer from './Answer';
 import unsplash from '../api/unsplash';
+
+import recordGAEvent from '../utils/RecordGAEvent';
 
 const unitOfTimeOptions = [
     { key: '0', text: 'minutes', value: '0' },
@@ -59,17 +59,6 @@ class DateQueryBeforeAfter extends React.Component {
                     this.setState({ queryResponse: error.response.data });
                 }
             });
-    };
-
-    recordGAEvent = (name) => {
-        if (name === 'submitButton') {
-            console.log('Sent GA event');
-            ReactGA.event({
-                category: 'User',
-                action: 'Clicked Button',
-                label: 'BeforeAfter Component Submit Button',
-            });
-        }
     };
 
     handleChange = (event, { name, value }) => {
@@ -156,7 +145,9 @@ class DateQueryBeforeAfter extends React.Component {
                                     className="ui animated button"
                                     type="submit"
                                     onClick={(e) =>
-                                        this.recordGAEvent('submitButton')
+                                        recordGAEvent(
+                                            'DateQueryBeforeAfterSubmitButton'
+                                        )
                                     }
                                 >
                                     <div className="visible content">is?</div>
