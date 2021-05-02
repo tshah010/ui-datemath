@@ -1,15 +1,9 @@
 import React from 'react';
 import { DateTimeInput } from 'semantic-ui-calendar-react';
-import { Input, Label, Dropdown } from 'semantic-ui-react';
 import unsplash from '../api/unsplash';
 import _ from 'lodash';
 
 import Answer from './Answer';
-
-const operatorOptions = [
-    { key: '0', text: '-', value: '-1' },
-    { key: '1', text: '+', value: '1' },
-];
 
 class AddSubtractDates extends React.Component {
     constructor(props) {
@@ -17,23 +11,17 @@ class AddSubtractDates extends React.Component {
 
         this.state = {
             userStartDateTime: '',
-            userStartEndTime: '',
-            operator: '',
+            userEndDateTime: '',
             queryResponse: '',
         };
     }
 
-    onDateQuerySubmit = async (
-        userStartDateTime,
-        userStartEndTime,
-        operator
-    ) => {
+    onDateQuerySubmit = async (userStartDateTime, userEndDateTime) => {
         await unsplash
             .get('/calculate-date-difference', {
                 params: {
                     userStartDateTime,
-                    userStartEndTime,
-                    operator,
+                    userEndDateTime,
                 },
             })
             .then((response) => {
@@ -62,8 +50,7 @@ class AddSubtractDates extends React.Component {
         }
         this.onDateQuerySubmit(
             this.state.userStartDateTime,
-            this.state.userStartEndTime,
-            this.state.operator
+            this.state.userEndDateTime
         );
     };
 
@@ -89,15 +76,13 @@ class AddSubtractDates extends React.Component {
                                     onChange={this.handleChange}
                                 />
                             </div>
-                            <div className="field">
-                                <Dropdown
-                                    name="operator"
-                                    placeholder="+/="
-                                    search
-                                    selection
-                                    options={operatorOptions}
-                                    onChange={this.handleChange}
-                                />
+                            <div
+                                style={{
+                                    textAlign: 'center',
+                                    padding: '8px',
+                                }}
+                            >
+                                minus
                             </div>
                             <div className="field">
                                 <DateTimeInput
@@ -122,13 +107,12 @@ class AddSubtractDates extends React.Component {
                             </div>
                         </div>
                     </form>
+                    {answerComponent}
                 </div>
                 <div
                     className="three column centered row"
                     style={{ padding: 0 }}
-                >
-                    {answerComponent}
-                </div>
+                ></div>
             </div>
         );
     }

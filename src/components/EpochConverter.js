@@ -26,7 +26,6 @@ class EpochConverter extends React.Component {
         let answerComponent;
         let answerToDisplay;
         if (this.state.localDateTime) {
-            console.log(this.state.localDateTime);
             if (this.state.localDateTime === 'Invalid date') {
                 answerToDisplay = 'Invalid Date';
             } else {
@@ -59,7 +58,7 @@ class EpochConverter extends React.Component {
                                 <Label basic>Local Time for Epoch</Label>
                                 <input style={{ width: '10%' }} />
                             </Input>
-                            &nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <button
                                 className="ui animated button"
                                 type="submit"
