@@ -1,18 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import DateQueryBeforeAfter from './components/DateQueryBeforeAfter';
-import EpochConverter from './components/EpochConverter';
-import AddSubtractDates from './components/AddSubtractDates';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-    <DateQueryBeforeAfter />,
-    document.querySelector('#date-query-before-after')
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+    document.getElementById('root')
 );
-ReactDOM.render(
-    <EpochConverter />,
-    document.querySelector('#epoch-time-converter')
-);
-ReactDOM.render(
-    <AddSubtractDates />,
-    document.querySelector('#add-subtract-dates')
-);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals(console.log);
