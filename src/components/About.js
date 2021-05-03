@@ -40,6 +40,12 @@ const About = () => {
                                         the web.
                                     </div>
                                     <div className="item">
+                                        <b>Google Analytics</b>: measures
+                                        traffic sources and interactions with
+                                        your content; shows impact of your
+                                        digital marketing.
+                                    </div>
+                                    <div className="item">
                                         <b>Visual Studio Code</b>: is a free
                                         coding editor that helps you start
                                         coding quickly. Use it to code in any
