@@ -2,10 +2,12 @@ import React from 'react';
 import Home from './components/Home.js';
 import About from './components/About.js';
 import GA from './utils/RouteChangeTracker.js';
+import moment from 'moment';
 
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 const App = () => {
+    let timeInUTC = moment().utc().format('ddd, MMMM Do YYYY, h:mm a');
     return (
         <Router>
             <div>
@@ -25,6 +27,11 @@ const App = () => {
                         <Link to="/about" className="item">
                             About
                         </Link>
+                        <div className="right menu">
+                            <Link to="/" className="item">
+                                UTC:&nbsp;&nbsp;{timeInUTC}
+                            </Link>
+                        </div>
                     </div>
                 </div>
 
