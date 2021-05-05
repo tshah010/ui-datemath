@@ -1,6 +1,6 @@
 import React from 'react';
 import { DateTimeInput } from 'semantic-ui-calendar-react';
-import { Dropdown, Input } from 'semantic-ui-react';
+import { Dropdown, Input, Label } from 'semantic-ui-react';
 import _ from 'lodash';
 import Answer from './Answer';
 import unsplash from '../api/unsplash';
@@ -83,32 +83,40 @@ class DateQueryBeforeAfter extends React.Component {
     };
 
     validateField(fieldName, value) {
-        console.log(fieldName + 'value is ' + value);
+        console.log('In validateField - ' + fieldName + ' = ' + value);
         let fieldValidationErrors = this.state.errors;
         let daysOrHoursValid = this.state.daysOrHoursValid;
-        let operatorValid = this.state.operatorValid;
         let unitOfTimeValid = this.state.unitOfTimeValid;
+        let operatorValid = this.state.operatorValid;
         let userDateTimeValid = this.state.userDateTimeValid;
 
         switch (fieldName) {
-            case 'userDateTime':
-                userDateTimeValid = value.length > 0;
-                console.log('userDateTimeValid' + userDateTimeValid);
-                fieldValidationErrors.userDateTime = userDateTimeValid
-                    ? ''
-                    : 'Date is required';
-                break;
             case 'daysOrHours':
                 daysOrHoursValid = value.length > 0;
-                console.log('daysOrHoursValid' + daysOrHoursValid);
+                console.log(
+                    'In validateField - daysOrHoursValid = ' + daysOrHoursValid
+                );
 
                 fieldValidationErrors.daysOrHours = daysOrHoursValid
                     ? ''
                     : 'A value is required';
                 break;
+            case 'userDateTime':
+                userDateTimeValid = value.length > 0;
+                console.log(
+                    'In validateField - userDateTimeValid = ' +
+                        userDateTimeValid
+                );
+                fieldValidationErrors.userDateTime = userDateTimeValid
+                    ? ''
+                    : 'Date is required';
+                break;
+
             case 'operator':
                 operatorValid = value.length > 0;
-                console.log('operatorValid' + operatorValid);
+                console.log(
+                    'In validateField - operatorValid = ' + operatorValid
+                );
 
                 fieldValidationErrors.operator = operatorValid
                     ? ''
@@ -116,7 +124,9 @@ class DateQueryBeforeAfter extends React.Component {
                 break;
             case 'unitOfTime':
                 unitOfTimeValid = value.length > 0;
-                console.log('unitOfTimeValid' + unitOfTimeValid);
+                console.log(
+                    'In validateField - unitOfTimeValid = ' + unitOfTimeValid
+                );
 
                 fieldValidationErrors.unitOfTime = unitOfTimeValid
                     ? ''
@@ -129,8 +139,8 @@ class DateQueryBeforeAfter extends React.Component {
         this.setState(
             {
                 errors: fieldValidationErrors,
-                unitOfTimeValid: unitOfTimeValid,
                 daysOrHoursValid: daysOrHoursValid,
+                unitOfTimeValid: unitOfTimeValid,
                 operatorValid: operatorValid,
                 userDateTimeValid: userDateTimeValid,
             },
@@ -139,24 +149,44 @@ class DateQueryBeforeAfter extends React.Component {
     }
 
     validateForm() {
+        console.log(
+            'In validateForm - this.state.daysOrHoursValid: ' +
+                this.state.daysOrHoursValid
+        );
+        console.log(
+            'In validateForm - this.state.unitOfTimeValid: ' +
+                this.state.unitOfTimeValid
+        );
+        console.log(
+            'In validateForm - this.state.operatorValid: ' +
+                this.state.operatorValid
+        );
+        console.log(
+            'In validateForm - this.state.userDateTimeValid: ' +
+                this.state.userDateTimeValid
+        );
         this.setState({
             formValid:
-                this.state.unitOfTimeValid &&
                 this.state.daysOrHoursValid &&
+                this.state.unitOfTimeValid &&
                 this.state.operatorValid &&
                 this.state.userDateTimeValid,
         });
-        console.log('this.state.formValid in' + this.state.formValid);
+        console.log(
+            'In validateForm - this.state.formValid = ' + this.state.formValid
+        );
     }
 
     // see https://react.semantic-ui.com/modules/dropdown/#types-selection
     onFormSubmit = (event) => {
         event.preventDefault();
-        this.validateField('unitOfTime', this.state.unitOfTime);
         this.validateField('daysOrHours', this.state.daysOrHours);
+        this.validateField('unitOfTime', this.state.unitOfTime);
         this.validateField('userDateTime', this.state.userDateTime);
         this.validateField('operator', this.state.operator);
-        console.log('this.state.formValid' + this.state.formValid);
+        console.log(
+            'In onFormSubmit - this.state.formValid = ' + this.state.formValid
+        );
         if (this.state.formValid) {
             this.onDateQuerySubmit(
                 this.state.daysOrHours,
@@ -168,6 +198,7 @@ class DateQueryBeforeAfter extends React.Component {
     };
 
     render() {
+        console.log('*render called.');
         // If server responded with answer or error then show answer component
         let answerComponent;
         if (this.state.queryResponse) {
@@ -177,35 +208,35 @@ class DateQueryBeforeAfter extends React.Component {
         let daysOrHoursErrorMessage;
         if (!_.isEmpty(this.state.errors.daysOrHours)) {
             daysOrHoursErrorMessage = (
-                <div className="ui pointing red basic label">
+                <Label basic color="red" pointing>
                     Please enter a value
-                </div>
+                </Label>
             );
         }
 
         let dateInputErrorMessage;
         if (!_.isEmpty(this.state.errors.userDateTime)) {
             dateInputErrorMessage = (
-                <div className="ui pointing red basic label">
+                <Label basic color="red" pointing>
                     Please enter a value
-                </div>
+                </Label>
             );
         }
 
         let operatorErrorMessage;
         if (!_.isEmpty(this.state.errors.operator)) {
             operatorErrorMessage = (
-                <div className="ui pointing red basic label">
+                <Label basic color="red" pointing>
                     Please enter a value
-                </div>
+                </Label>
             );
         }
         let unitOfTimeErrorMessage;
         if (!_.isEmpty(this.state.errors.unitOfTime)) {
             unitOfTimeErrorMessage = (
-                <div className="ui pointing red basic label">
+                <Label basic color="red" pointing>
                     Please enter a value
-                </div>
+                </Label>
             );
         }
 
@@ -216,19 +247,11 @@ class DateQueryBeforeAfter extends React.Component {
                         <div className="fields">
                             <div className="field">
                                 <Input
-                                    focus
                                     name="daysOrHours"
                                     type="text"
                                     placeholder="example: 5"
                                     value={this.state.daysOrHours}
-                                    onChange={(event) =>
-                                        this.setState({
-                                            daysOrHours: event.target.value.replace(
-                                                /\D/,
-                                                ''
-                                            ),
-                                        })
-                                    }
+                                    onChange={this.handleChange}
                                 />
                                 {daysOrHoursErrorMessage}
                             </div>
