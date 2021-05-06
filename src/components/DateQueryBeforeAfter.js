@@ -1,6 +1,6 @@
 import React from 'react';
 import { DateTimeInput } from 'semantic-ui-calendar-react';
-import { Dropdown, Input } from 'semantic-ui-react';
+import { Form, Button, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
 import Answer from './Answer';
 import unsplash from '../api/unsplash';
@@ -89,82 +89,65 @@ class DateQueryBeforeAfter extends React.Component {
         }
 
         return (
-            <div className="ui grid">
-                <div className="centered row">
-                    <form onSubmit={this.onFormSubmit} className="ui form">
-                        <div className="fields">
-                            <div className="field">
-                                <Input
-                                    focus
-                                    name="daysOrHours"
-                                    type="text"
-                                    placeholder="example: 5"
-                                    value={this.state.daysOrHours}
-                                    onChange={(event) =>
-                                        this.setState({
-                                            daysOrHours: event.target.value.replace(
-                                                /\D/,
-                                                ''
-                                            ),
-                                        })
-                                    }
-                                />
-                            </div>
-                            <div className="field">
-                                <Dropdown
-                                    name="unitOfTime"
-                                    placeholder="mins/hrs/days..."
-                                    search
-                                    selection
-                                    options={unitOfTimeOptions}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                            <div className="field">
-                                <Dropdown
-                                    name="operator"
-                                    placeholder="before or after"
-                                    search
-                                    selection
-                                    options={operatorOptions}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                            <div className="field">
-                                <DateTimeInput
-                                    name="userDateTime"
-                                    dateTimeFormat="MM-DD-YYYY HH:mm"
-                                    placeholder="Date"
-                                    value={this.state.userDateTime}
-                                    iconPosition="left"
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                            <div className="field">
-                                <button
-                                    className="ui animated button"
-                                    type="submit"
-                                    onClick={(e) =>
-                                        recordGAEvent(
-                                            'DateQueryBeforeAfterSubmitButton'
-                                        )
-                                    }
-                                >
-                                    <div className="visible content">is?</div>
-                                    <div className="hidden content">
-                                        <i className="right arrow icon"></i>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+            <div>
+                <div>
+                    <Form onSubmit={this.onFormSubmit}>
+                        <Form.Group widths="equal">
+                            <Form.Input
+                                fluid
+                                focus
+                                name="daysOrHours"
+                                type="text"
+                                placeholder="example: 5"
+                                value={this.state.daysOrHours}
+                                onChange={this.handleChange}
+                            />
+                            <Form.Select
+                                fluid
+                                name="unitOfTime"
+                                placeholder="mins/hrs/days..."
+                                search
+                                selection
+                                options={unitOfTimeOptions}
+                                onChange={this.handleChange}
+                            />
+                            <Form.Select
+                                fluid
+                                name="operator"
+                                placeholder="before or after"
+                                search
+                                selection
+                                options={operatorOptions}
+                                onChange={this.handleChange}
+                            />
+                            <DateTimeInput
+                                fluid
+                                name="userDateTime"
+                                dateTimeFormat="MM-DD-YYYY HH:mm"
+                                placeholder="Date"
+                                value={this.state.userDateTime}
+                                iconPosition="left"
+                                onChange={this.handleChange}
+                            />
+                            <Button
+                                fluid
+                                animated
+                                type="submit"
+                                onClick={(e) =>
+                                    recordGAEvent(
+                                        'DateQueryBeforeAfterSubmitButton'
+                                    )
+                                }
+                            >
+                                <Button.Content visible>Next</Button.Content>
+                                <Button.Content hidden>
+                                    <Icon name="arrow right" />
+                                </Button.Content>
+                            </Button>
+                        </Form.Group>
+                    </Form>
                 </div>
-                <div
-                    className="three column centered row"
-                    style={{ padding: 0 }}
-                >
-                    {answerComponent}
-                </div>
+                <div style={{ padding: 0 }}>{answerComponent}</div>
             </div>
         );
     }
