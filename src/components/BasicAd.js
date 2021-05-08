@@ -9,10 +9,12 @@ class BasicAd extends Component {
         return (
             <ins
                 className="adsbygoogle"
+                style={{ display: 'block' }}
                 data-ad-client="ca-pub-2363905445217006"
-                data-ad-slot="4640466102"
-                style={{ display: 'inline-block', height: 160, width: 600 }}
-            />
+                data-ad-slot="5451645141"
+                data-ad-format="auto"
+                data-full-width-responsive="true"
+            ></ins>
         );
     }
 }
