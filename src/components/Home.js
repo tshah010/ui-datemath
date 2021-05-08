@@ -4,7 +4,7 @@ import EpochConverter from './EpochConverter';
 import SubtractDates from './SubtractDates';
 // import 'semantic-ui-css/semantic.min.css';
 
-import { Grid, Header, Segment } from 'semantic-ui-react';
+import { Grid, Header, Segment, Advertisement } from 'semantic-ui-react';
 
 import '../App.css';
 // Right nav ad from https://github.com/semantic-ui-forest/forest-templates/tree/master/bootstrap/blog
@@ -46,7 +46,10 @@ const Home = () => {
                     </Grid.Column>
                     <Grid.Column width={3} floated="right">
                         <Segment secondary>
-                            <Header as="h4">Ad</Header>
+                            <Advertisement
+                                unit="wide skyscraper"
+                                test="Wide Skyscraper"
+                            />
                         </Segment>
                     </Grid.Column>
                 </Grid.Row>
