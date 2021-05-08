@@ -147,7 +147,14 @@ class DateQueryBeforeAfter extends React.Component {
                         </Form.Group>
                     </Form>
                 </div>
-                <div style={{ padding: 0 }}>{answerComponent}</div>
+                <div className="ui grid">
+                    <div
+                        className="three column centered row"
+                        style={{ 'padding-top': 20 }}
+                    >
+                        {answerComponent}
+                    </div>
+                </div>
             </div>
         );
     }
