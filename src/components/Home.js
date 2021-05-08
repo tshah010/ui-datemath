@@ -47,11 +47,9 @@ const Home = () => {
                     </Grid.Column>
                     <Grid.Column width={3} floated="right">
                         <Segment secondary>
-                            <Advertisement
-                                unit="wide skyscraper"
-                                test="Wide Skyscraper"
-                            />
-                            <BasicAd />
+                            <Advertisement unit="wide skyscraper">
+                                <BasicAd />
+                            </Advertisement>
                         </Segment>
                     </Grid.Column>
                 </Grid.Row>
