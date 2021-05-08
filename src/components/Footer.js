@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Grid, Segment } from 'semantic-ui-react';
+import '../App.css';
 
 // Found in https://github.com/Semantic-Org/Semantic-UI-React/blob/master/docs/src/layouts/FixedMenuLayout.js
 const Footer = () => (
