@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactGA from 'react-ga';
 
-import { Input, Label } from 'semantic-ui-react';
+import { Input, Icon, Form, Button } from 'semantic-ui-react';
 import Answer from './Answer';
 import moment from 'moment';
 
@@ -49,45 +49,54 @@ class EpochConverter extends React.Component {
         }
 
         return (
-            <div className="ui two column centered grid">
-                <div className="two column centered row">
-                    <div className="column" style={{ textAlign: 'right' }}>
+            <div className="ui grid">
+                <div className="three column centered row">
+                    <div className="column" style={{ padding: 0 }}>
                         <form onSubmit={this.onFormSubmit} className="ui form">
-                            <Input
-                                name="epochSeconds"
-                                labelPosition="left"
-                                type="text"
-                                placeholder="seconds"
-                                value={this.state.epochSeconds}
-                                onChange={(event) =>
-                                    this.setState({
-                                        epochSeconds: event.target.value.replace(
-                                            /\D/,
-                                            ''
-                                        ),
-                                    })
-                                }
-                            >
-                                <Label basic>Local Time for Epoch</Label>
-                                <input style={{ width: '10%' }} />
-                            </Input>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button
-                                className="ui animated button"
-                                type="submit"
-                                onClick={(e) =>
-                                    recordGAEvent('EpochConverterSubmitButton')
-                                }
-                            >
-                                <div className="visible content">is?</div>
-                                <div className="hidden content">
-                                    <i className="right arrow icon"></i>
-                                </div>
-                            </button>
+                            <Form.Group>
+                                <Form.Field>
+                                    <Input
+                                        name="epochSeconds"
+                                        labelPosition="left"
+                                        type="text"
+                                        placeholder="seconds"
+                                        value={this.state.epochSeconds}
+                                        onChange={(event) =>
+                                            this.setState({
+                                                epochSeconds: event.target.value.replace(
+                                                    /\D/,
+                                                    ''
+                                                ),
+                                            })
+                                        }
+                                    ></Input>
+                                </Form.Field>
+                                <Form.Field inline>
+                                    <Button
+                                        animated
+                                        type="submit"
+                                        onClick={(e) =>
+                                            recordGAEvent(
+                                                'EpochConverterSubmitButton'
+                                            )
+                                        }
+                                    >
+                                        <Button.Content visible>
+                                            is?
+                                        </Button.Content>
+                                        <Button.Content hidden>
+                                            <Icon name="arrow right" />
+                                        </Button.Content>
+                                    </Button>
+                                </Form.Field>
+                            </Form.Group>
                         </form>
                     </div>
-                    <div className="column">
-                        <div>{answerComponent}</div>
+
+                    <div className="ui grid">
+                        <div className="three column centered row">
+                            {answerComponent}
+                        </div>
                     </div>
                 </div>
             </div>

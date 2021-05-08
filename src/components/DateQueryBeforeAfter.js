@@ -139,7 +139,7 @@ class DateQueryBeforeAfter extends React.Component {
                                     )
                                 }
                             >
-                                <Button.Content visible>Next</Button.Content>
+                                <Button.Content visible>is?</Button.Content>
                                 <Button.Content hidden>
                                     <Icon name="arrow right" />
                                 </Button.Content>
