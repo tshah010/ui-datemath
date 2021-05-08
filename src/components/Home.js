@@ -2,9 +2,10 @@ import React from 'react';
 import DateQueryBeforeAfter from './DateQueryBeforeAfter';
 import EpochConverter from './EpochConverter';
 import SubtractDates from './SubtractDates';
+import BasicAd from './BasicAd';
 // import 'semantic-ui-css/semantic.min.css';
 
-import { Grid, Header, Segment, Advertisement } from 'semantic-ui-react';
+import { Grid, Segment, Advertisement } from 'semantic-ui-react';
 
 import '../App.css';
 // Right nav ad from https://github.com/semantic-ui-forest/forest-templates/tree/master/bootstrap/blog
@@ -50,6 +51,7 @@ const Home = () => {
                                 unit="wide skyscraper"
                                 test="Wide Skyscraper"
                             />
+                            <BasicAd />
                         </Segment>
                     </Grid.Column>
                 </Grid.Row>
