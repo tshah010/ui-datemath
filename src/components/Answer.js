@@ -11,7 +11,9 @@ class Answer extends React.Component {
         let answerLabel = '';
         if (apiResponse.answer) {
             answerLabel = (
-                <div className="ui blue big label">{apiResponse.answer}</div>
+                <div className="ui blue big label" style={{ height: 38 }}>
+                    {apiResponse.answer}
+                </div>
             );
         } else if (apiResponse.errorResponse) {
             answerLabel = (

@@ -39,6 +39,10 @@ const Home = () => {
                             Subtract Dates
                         </div>
                         <SubtractDates />
+                        <div className="ui hidden divider"></div>
+                        <div className="ui hidden divider"></div>
+                        <div className="ui hidden divider"></div>
+                        <div className="ui hidden divider"></div>
                     </Grid.Column>
                     <Grid.Column width={3} floated="right">
                         <Segment secondary>

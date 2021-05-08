@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactGA from 'react-ga';
 import { DateTimeInput } from 'semantic-ui-calendar-react';
+import { Icon, Button } from 'semantic-ui-react';
+
 import _ from 'lodash';
 
 import Answer from './Answer';
@@ -107,29 +109,28 @@ class SubtractDates extends React.Component {
                                 />
                             </div>
                             <div className="field">
-                                <button
-                                    className="ui animated button"
+                                <Button
+                                    fluid
+                                    animated
                                     type="submit"
                                     onClick={(e) =>
                                         recordGAEvent(
                                             'SubtractDateSubmitButton'
                                         )
                                     }
+                                    style={{ height: 38 }}
                                 >
-                                    <div className="visible content">is?</div>
-                                    <div className="hidden content">
-                                        <i className="right arrow icon"></i>
-                                    </div>
-                                </button>
+                                    <Button.Content visible>is?</Button.Content>
+                                    <Button.Content hidden>
+                                        <Icon name="arrow right" />
+                                    </Button.Content>
+                                </Button>
                             </div>
                         </div>
                     </form>
+                    &nbsp;&nbsp;&nbsp;
                     {answerComponent}
                 </div>
-                <div
-                    className="three column centered row"
-                    style={{ padding: 0 }}
-                ></div>
             </div>
         );
     }

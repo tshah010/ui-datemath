@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactGA from 'react-ga';
 
-import { Input, Icon, Form, Button } from 'semantic-ui-react';
+import { Input, Icon, Button } from 'semantic-ui-react';
 import Answer from './Answer';
 import moment from 'moment';
 
@@ -50,54 +50,48 @@ class EpochConverter extends React.Component {
 
         return (
             <div className="ui grid">
-                <div className="three column centered row">
-                    <div className="column" style={{ padding: 0 }}>
-                        <form onSubmit={this.onFormSubmit} className="ui form">
-                            <Form.Group>
-                                <Form.Field>
-                                    <Input
-                                        name="epochSeconds"
-                                        labelPosition="left"
-                                        type="text"
-                                        placeholder="seconds"
-                                        value={this.state.epochSeconds}
-                                        onChange={(event) =>
-                                            this.setState({
-                                                epochSeconds: event.target.value.replace(
-                                                    /\D/,
-                                                    ''
-                                                ),
-                                            })
-                                        }
-                                    ></Input>
-                                </Form.Field>
-                                <Form.Field inline>
-                                    <Button
-                                        animated
-                                        type="submit"
-                                        onClick={(e) =>
-                                            recordGAEvent(
-                                                'EpochConverterSubmitButton'
-                                            )
-                                        }
-                                    >
-                                        <Button.Content visible>
-                                            is?
-                                        </Button.Content>
-                                        <Button.Content hidden>
-                                            <Icon name="arrow right" />
-                                        </Button.Content>
-                                    </Button>
-                                </Form.Field>
-                            </Form.Group>
-                        </form>
-                    </div>
-
-                    <div className="ui grid">
-                        <div className="three column centered row">
-                            {answerComponent}
+                <div className="centered row">
+                    <form onSubmit={this.onFormSubmit} className="ui form">
+                        <div className="fields">
+                            <div className="field">
+                                <Input
+                                    name="epochSeconds"
+                                    labelPosition="left"
+                                    type="text"
+                                    placeholder="seconds"
+                                    value={this.state.epochSeconds}
+                                    onChange={(event) =>
+                                        this.setState({
+                                            epochSeconds: event.target.value.replace(
+                                                /\D/,
+                                                ''
+                                            ),
+                                        })
+                                    }
+                                ></Input>
+                            </div>
+                            <div className="field">
+                                <Button
+                                    fluid
+                                    animated
+                                    type="submit"
+                                    onClick={(e) =>
+                                        recordGAEvent(
+                                            'EpochConverterSubmitButton'
+                                        )
+                                    }
+                                    style={{ height: 38 }}
+                                >
+                                    <Button.Content visible>is?</Button.Content>
+                                    <Button.Content hidden>
+                                        <Icon name="arrow right" />
+                                    </Button.Content>
+                                </Button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
+                    &nbsp;&nbsp;&nbsp;
+                    {answerComponent}
                 </div>
             </div>
         );
