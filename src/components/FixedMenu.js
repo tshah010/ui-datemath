@@ -19,6 +19,9 @@ const FixedMenu = () => {
                 <Link to="/" className="item">
                     Home
                 </Link>
+                <Link to="/apidocs" className="item">
+                    API
+                </Link>
                 <Link to="/about" className="item">
                     About
                 </Link>

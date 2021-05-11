@@ -3,6 +3,7 @@ import Home from './components/Home.js';
 import About from './components/About.js';
 import FixedMenu from './components/FixedMenu';
 import Footer from './components/Footer';
+import SwaggerDocs from './components/SwaggerDocs.js';
 
 import GA from './utils/RouteChangeTracker.js';
 
@@ -18,7 +19,9 @@ const App = () => {
                     <Route path="/about">
                         <About />
                     </Route>
-
+                    <Route path="/apidocs">
+                        <SwaggerDocs />
+                    </Route>
                     <Route path="/">
                         <Home />
                     </Route>
