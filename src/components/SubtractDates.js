@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 import Answer from './Answer';
 import recordGAEvent from '../utils/RecordGAEvent';
-import unsplash from '../api/unsplash';
+import datemath from '../api/datemath';
 
 class SubtractDates extends React.Component {
     constructor(props) {
@@ -31,7 +31,7 @@ class SubtractDates extends React.Component {
     };
 
     onDateQuerySubmit = async (userStartDateTime, userEndDateTime) => {
-        await unsplash
+        await datemath
             .get('/calculate-date-difference', {
                 params: {
                     userStartDateTime,

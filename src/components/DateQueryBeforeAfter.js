@@ -3,7 +3,7 @@ import { DateTimeInput } from 'semantic-ui-calendar-react';
 import { Form, Button, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
 import Answer from './Answer';
-import unsplash from '../api/unsplash';
+import datemath from '../api/datemath';
 
 import recordGAEvent from '../utils/RecordGAEvent';
 
@@ -40,7 +40,7 @@ class DateQueryBeforeAfter extends React.Component {
         operator,
         userDateTime
     ) => {
-        await unsplash
+        await datemath
             .get('/calculate-before-after', {
                 params: {
                     daysOrHours,
