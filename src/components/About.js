@@ -7,8 +7,8 @@ const About = () => {
                 <div className="ui basic segment">
                     <h1 className="ui huge header">About dateMath.net</h1>
                     <p className="lead">
-                        The Responsive SPA website for performing Date and Time
-                        caluculations.
+                        Free online calculators for performing Date and Time
+                        arithmetic.
                     </p>
                     <p className="lead">
                         <h2>Technology Stack</h2>
@@ -67,7 +67,12 @@ const About = () => {
                                         production-grade Spring based
                                         Applications that you can "just run".
                                     </div>
-
+                                    <div className="item">
+                                        <b>SpringDoc-OpenAPI</b>: is java
+                                        library helps automating the generation
+                                        of API documentation. Is allows using
+                                        Swagger-API annotations.
+                                    </div>
                                     <div className="item">
                                         <b>Amazon Web Services (AWS) EC2</b>: is
                                         a web service that provides secure,
