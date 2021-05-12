@@ -1,6 +1,6 @@
 import React from 'react';
 import { DateTimeInput } from 'semantic-ui-calendar-react';
-import { Form, Button, Icon } from 'semantic-ui-react';
+import { Form, Button, Icon, Label, Input } from 'semantic-ui-react';
 import _ from 'lodash';
 import Answer from './Answer';
 import datemath from '../api/datemath';
@@ -21,20 +21,33 @@ const operatorOptions = [
     { key: '1', text: 'after', value: '1' },
 ];
 
-class DateQueryBeforeAfter extends React.Component {
-    constructor(props) {
-        super(props);
+function DateQueryBeforeAfter() {
+    const initialValues = {
+        daysOrHours: '',
+        unitOfTime: '',
+        operator: '',
+        userDateTime: '',
+    };
+    var queryResponse = '';
 
-        this.state = {
-            daysOrHours: '',
-            unitOfTime: '',
-            operator: '',
-            userDateTime: '',
-            queryResponse: '',
-        };
-    }
+    const [values, setValues] = React.useState(initialValues);
 
-    onDateQuerySubmit = async (
+    const [errors, setErrors] = React.useState({});
+
+    const [touched, setTouched] = React.useState({});
+    // constructor(props) {
+    //     super(props);
+
+    //     this.state = {
+    //         daysOrHours: '',
+    //         unitOfTime: '',
+    //         operator: '',
+    //         userDateTime: '',
+    //         queryResponse: '',
+    //     };
+    // }
+
+    const onDateQuerySubmit = async (
         daysOrHours,
         unitOfTime,
         operator,
@@ -50,124 +63,218 @@ class DateQueryBeforeAfter extends React.Component {
                 },
             })
             .then((response) => {
-                this.setState({ queryResponse: response.data });
+                queryResponse = response.data;
             })
             .catch((error) => {
-                if (
-                    !_.isEmpty(error.response) &&
-                    !_.isEmpty(error.response.data.error)
-                ) {
-                    this.setState({ queryResponse: error.response.data.error });
-                } else if (
-                    !_.isEmpty(error.response.data.errorResponse.message)
-                ) {
-                    this.setState({
-                        queryResponse:
-                            error.response.data.errorResponse.message,
-                    });
-                } else if (!_.isEmpty(error.message)) {
-                    this.setState({ queryResponse: error.message });
+                if (!_.isUndefined(error.response)) {
+                    if (!_.isUndefined(error.response.data)) {
+                        if (!_.isUndefined(error.response.data.error)) {
+                            queryResponse = error.response.data.error;
+                        } else if (
+                            !_.isUndefined(
+                                error.response.data.errorResponse.message
+                            )
+                        ) {
+                            values.queryResponse =
+                                error.response.data.errorResponse.message;
+                        }
+                    }
+                } else if (!_.isUndefined(error.message)) {
+                    queryResponse = error.message;
                 }
             });
     };
 
-    handleChange = (event, { name, value }) => {
-        if (this.state.hasOwnProperty(name)) {
-            this.setState({ [name]: value });
+    const handleChange = (event, { name, value }) => {
+        // save field values
+        setValues({
+            ...values,
+            [name]: value,
+        });
+        setTouched({
+            ...touched,
+            [name]: true,
+        });
+    };
+
+    const handleBlur = (evt) => {
+        const { name, value } = evt.target;
+
+        // remove whatever error was there previously
+        const { [name]: removedError, ...rest } = errors;
+
+        // check for a new error
+        const error = validate[name](value);
+
+        // // validate the field if the value has been touched
+        setErrors({
+            ...rest,
+            ...(error && { [name]: touched[name] && error }),
+        });
+    };
+
+    const validateNumber = (fieldName, fieldValue) => {
+        if (fieldValue.trim() === '') {
+            return `${fieldName} is required`;
         }
+        if (/[^0-9 -]/.test(fieldValue)) {
+            return 'Invalid Number';
+        }
+        return null;
+    };
+    const validateRequired = (fieldName, fieldValue) => {
+        if (fieldValue.trim() === '') {
+            return `${fieldName} is required`;
+        }
+        return null;
+    };
+    const validateDateTime = (fieldName, fieldValue) => {
+        if (fieldValue.trim() === '') {
+            return `${fieldName} is required`;
+        }
+        return null;
+    };
+    const validate = {
+        daysOrHours: (quantity) =>
+            validateNumber('Number of min/hours...', quantity),
+        unitOfTime: (unitOfTime) =>
+            validateRequired('Min/Hours...', unitOfTime),
+        operator: (operator) => validateRequired('Before or After', operator),
+        userDateTime: (userDateTime) => validateDateTime('Date', userDateTime),
     };
 
     // see https://react.semantic-ui.com/modules/dropdown/#types-selection
-    onFormSubmit = (event) => {
+    const onFormSubmit = (event) => {
         event.preventDefault();
-        if (_.isEmpty(this.state.userDateTime)) {
-            console.log('User date is null');
-        }
-        this.onDateQuerySubmit(
-            this.state.daysOrHours,
-            this.state.unitOfTime,
-            this.state.operator,
-            this.state.userDateTime
+
+        // validate the form
+        const formValidation = Object.keys(values).reduce(
+            (acc, key) => {
+                const newError = validate[key](values[key]);
+                const newTouched = { [key]: true };
+                return {
+                    errors: {
+                        ...acc.errors,
+                        ...(newError && { [key]: newError }),
+                    },
+                    touched: {
+                        ...acc.touched,
+                        ...newTouched,
+                    },
+                };
+            },
+            {
+                errors: { ...errors },
+                touched: { ...touched },
+            }
         );
+        setErrors(formValidation.errors);
+        setTouched(formValidation.touched);
+
+        if (
+            !Object.values(formValidation.errors).length && // errors object is empty
+            Object.values(formValidation.touched).length ===
+                Object.values(values).length && // all fields were touched
+            Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
+        ) {
+            alert(JSON.stringify(values, null, 2));
+            // onDateQuerySubmit(
+            //     this.state.daysOrHours,
+            //     this.state.unitOfTime,
+            //     this.state.operator,
+            //     this.state.userDateTime
+            // );
+        }
     };
 
-    render() {
-        // If server responded with answer or error then show answer component
-        let answerComponent;
-        if (this.state.queryResponse) {
-            answerComponent = <Answer response={this.state.queryResponse} />;
-        }
+    // If server responded with answer or error then show answer component
+    let answerComponent;
+    if (values.queryResponse) {
+        answerComponent = <Answer response={values.queryResponse} />;
+    }
 
-        return (
+    let daysOrHoursErrorComponent;
+    if (touched.daysOrHours && errors.daysOrHours) {
+        daysOrHoursErrorComponent = (
+            <Label pointing prompt>
+                {touched.daysOrHours && errors.daysOrHours}
+            </Label>
+        );
+    }
+
+    return (
+        <div>
             <div>
-                <div>
-                    <Form onSubmit={this.onFormSubmit}>
-                        <Form.Group widths="equal">
-                            <Form.Input
+                <Form onSubmit={onFormSubmit}>
+                    <Form.Group widths="equal">
+                        <Form.Field>
+                            <Input
                                 fluid
                                 focus
                                 name="daysOrHours"
+                                id="days-or-hours-input"
                                 type="text"
                                 placeholder="example: 5"
-                                value={this.state.daysOrHours}
-                                onChange={this.handleChange}
+                                value={values.daysOrHours}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
                             />
-                            <Form.Select
-                                fluid
-                                name="unitOfTime"
-                                placeholder="mins/hrs/days..."
-                                search
-                                selection
-                                options={unitOfTimeOptions}
-                                onChange={this.handleChange}
-                            />
-                            <Form.Select
-                                fluid
-                                name="operator"
-                                placeholder="before or after"
-                                search
-                                selection
-                                options={operatorOptions}
-                                onChange={this.handleChange}
-                            />
-                            <DateTimeInput
-                                fluid
-                                name="userDateTime"
-                                dateTimeFormat="MM-DD-YYYY HH:mm"
-                                placeholder="Date"
-                                value={this.state.userDateTime}
-                                iconPosition="left"
-                                onChange={this.handleChange}
-                            />
-                            <Button
-                                fluid
-                                animated
-                                type="submit"
-                                onClick={(e) =>
-                                    recordGAEvent(
-                                        'DateQueryBeforeAfterSubmitButton'
-                                    )
-                                }
-                            >
-                                <Button.Content visible>is?</Button.Content>
-                                <Button.Content hidden>
-                                    <Icon name="arrow right" />
-                                </Button.Content>
-                            </Button>
-                        </Form.Group>
-                    </Form>
-                </div>
-                <div className="ui grid">
-                    <div
-                        className="three column centered row"
-                        style={{ 'padding-top': 20 }}
+                            {daysOrHoursErrorComponent}
+                        </Form.Field>
+                        <Form.Select
+                            name="unitOfTime"
+                            placeholder="mins/hrs/days..."
+                            search
+                            selection
+                            options={unitOfTimeOptions}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                        />
+                        <Form.Select
+                            fluid
+                            name="operator"
+                            placeholder="before or after"
+                            search
+                            selection
+                            options={operatorOptions}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                        />
+                        <DateTimeInput
+                            fluid
+                            name="userDateTime"
+                            dateTimeFormat="MM-DD-YYYY HH:mm"
+                            placeholder="Date"
+                            value={values.userDateTime}
+                            iconPosition="left"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                        />
+                    </Form.Group>
+                    <Button
+                        animated
+                        type="submit"
+                        onClick={(e) =>
+                            recordGAEvent('DateQueryBeforeAfterSubmitButton')
+                        }
                     >
-                        {answerComponent}
-                    </div>
+                        <Button.Content visible>is?</Button.Content>
+                        <Button.Content hidden>
+                            <Icon name="arrow right" />
+                        </Button.Content>
+                    </Button>
+                </Form>
+            </div>
+            <div className="ui grid">
+                <div
+                    className="three column centered row"
+                    style={{ 'padding-top': 20 }}
+                >
+                    {answerComponent}
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default DateQueryBeforeAfter;
