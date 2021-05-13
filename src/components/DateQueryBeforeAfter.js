@@ -4,6 +4,7 @@ import { Form, Button, Icon, Label, Input } from 'semantic-ui-react';
 import _ from 'lodash';
 import Answer from './Answer';
 import datemath from '../api/datemath';
+import Debug from './Debug';
 
 import recordGAEvent from '../utils/RecordGAEvent';
 
@@ -35,17 +36,6 @@ function DateQueryBeforeAfter() {
     const [errors, setErrors] = React.useState({});
 
     const [touched, setTouched] = React.useState({});
-    // constructor(props) {
-    //     super(props);
-
-    //     this.state = {
-    //         daysOrHours: '',
-    //         unitOfTime: '',
-    //         operator: '',
-    //         userDateTime: '',
-    //         queryResponse: '',
-    //     };
-    // }
 
     const onDateQuerySubmit = async (
         daysOrHours,
@@ -64,6 +54,7 @@ function DateQueryBeforeAfter() {
             })
             .then((response) => {
                 queryResponse = response.data;
+                console.log('^^^^' + JSON.stringify(queryResponse));
             })
             .catch((error) => {
                 if (!_.isUndefined(error.response)) {
@@ -75,7 +66,7 @@ function DateQueryBeforeAfter() {
                                 error.response.data.errorResponse.message
                             )
                         ) {
-                            values.queryResponse =
+                            queryResponse =
                                 error.response.data.errorResponse.message;
                         }
                     }
@@ -91,6 +82,8 @@ function DateQueryBeforeAfter() {
             ...values,
             [name]: value,
         });
+
+        // was the field modified
         setTouched({
             ...touched,
             [name]: true,
@@ -98,19 +91,22 @@ function DateQueryBeforeAfter() {
     };
 
     const handleBlur = (evt) => {
-        const { name, value } = evt.target;
+        if (evt) {
+            const { name, value } = evt.target;
+            if (name) {
+                // remove whatever error was there previously
+                const { [name]: removedError, ...rest } = errors;
 
-        // remove whatever error was there previously
-        const { [name]: removedError, ...rest } = errors;
+                // check for a new error
+                const error = validate[name](value);
 
-        // check for a new error
-        const error = validate[name](value);
-
-        // // validate the field if the value has been touched
-        setErrors({
-            ...rest,
-            ...(error && { [name]: touched[name] && error }),
-        });
+                // // validate the field if the value has been touched
+                setErrors({
+                    ...rest,
+                    ...(error && { [name]: touched[name] && error }),
+                });
+            }
+        }
     };
 
     const validateNumber = (fieldName, fieldValue) => {
@@ -136,9 +132,8 @@ function DateQueryBeforeAfter() {
     };
     const validate = {
         daysOrHours: (quantity) =>
-            validateNumber('Number of min/hours...', quantity),
-        unitOfTime: (unitOfTime) =>
-            validateRequired('Min/Hours...', unitOfTime),
+            validateNumber('Number of min/hours', quantity),
+        unitOfTime: (unitOfTime) => validateRequired('Min/Hours', unitOfTime),
         operator: (operator) => validateRequired('Before or After', operator),
         userDateTime: (userDateTime) => validateDateTime('Date', userDateTime),
     };
@@ -177,20 +172,21 @@ function DateQueryBeforeAfter() {
                 Object.values(values).length && // all fields were touched
             Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
         ) {
-            alert(JSON.stringify(values, null, 2));
-            // onDateQuerySubmit(
-            //     this.state.daysOrHours,
-            //     this.state.unitOfTime,
-            //     this.state.operator,
-            //     this.state.userDateTime
-            // );
+            // alert(JSON.stringify(values, null, 2));
+            onDateQuerySubmit(
+                values.daysOrHours,
+                values.unitOfTime,
+                values.operator,
+                values.userDateTime
+            );
         }
     };
 
     // If server responded with answer or error then show answer component
     let answerComponent;
-    if (values.queryResponse) {
-        answerComponent = <Answer response={values.queryResponse} />;
+    console.log('************' + queryResponse);
+    if (queryResponse) {
+        answerComponent = <Answer response={queryResponse} />;
     }
 
     let daysOrHoursErrorComponent;
@@ -198,6 +194,33 @@ function DateQueryBeforeAfter() {
         daysOrHoursErrorComponent = (
             <Label pointing prompt>
                 {touched.daysOrHours && errors.daysOrHours}
+            </Label>
+        );
+    }
+
+    let unitOfTimeErrorComponent;
+    if (touched.unitOfTime && errors.unitOfTime) {
+        unitOfTimeErrorComponent = (
+            <Label pointing prompt>
+                {touched.unitOfTime && errors.unitOfTime}
+            </Label>
+        );
+    }
+
+    let operatorErrorComponent;
+    if (touched.operator && errors.operator) {
+        operatorErrorComponent = (
+            <Label pointing prompt>
+                {touched.operator && errors.operator}
+            </Label>
+        );
+    }
+
+    let userDateTimeComponent;
+    if (touched.userDateTime && errors.userDateTime) {
+        userDateTimeComponent = (
+            <Label pointing prompt>
+                {touched.userDateTime && errors.userDateTime}
             </Label>
         );
     }
@@ -212,7 +235,6 @@ function DateQueryBeforeAfter() {
                                 fluid
                                 focus
                                 name="daysOrHours"
-                                id="days-or-hours-input"
                                 type="text"
                                 placeholder="example: 5"
                                 value={values.daysOrHours}
@@ -221,35 +243,42 @@ function DateQueryBeforeAfter() {
                             />
                             {daysOrHoursErrorComponent}
                         </Form.Field>
-                        <Form.Select
-                            name="unitOfTime"
-                            placeholder="mins/hrs/days..."
-                            search
-                            selection
-                            options={unitOfTimeOptions}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                        <Form.Select
-                            fluid
-                            name="operator"
-                            placeholder="before or after"
-                            search
-                            selection
-                            options={operatorOptions}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                        <DateTimeInput
-                            fluid
-                            name="userDateTime"
-                            dateTimeFormat="MM-DD-YYYY HH:mm"
-                            placeholder="Date"
-                            value={values.userDateTime}
-                            iconPosition="left"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
+                        <Form.Field>
+                            <Form.Select
+                                name="unitOfTime"
+                                placeholder="mins/hrs/days..."
+                                options={unitOfTimeOptions}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />
+                            {unitOfTimeErrorComponent}
+                        </Form.Field>
+                        <Form.Field>
+                            <Form.Select
+                                fluid
+                                name="operator"
+                                placeholder="before or after"
+                                search
+                                selection
+                                options={operatorOptions}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />
+                            {operatorErrorComponent}
+                        </Form.Field>
+                        <Form.Field>
+                            <DateTimeInput
+                                fluid
+                                name="userDateTime"
+                                dateTimeFormat="MM-DD-YYYY HH:mm"
+                                placeholder="Date"
+                                value={values.userDateTime}
+                                iconPosition="left"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />
+                            {userDateTimeComponent}
+                        </Form.Field>
                     </Form.Group>
                     <Button
                         animated
@@ -264,6 +293,7 @@ function DateQueryBeforeAfter() {
                         </Button.Content>
                     </Button>
                 </Form>
+                <Debug values={values} errors={errors} touched={touched} />
             </div>
             <div className="ui grid">
                 <div
