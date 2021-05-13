@@ -28,8 +28,9 @@ function DateQueryBeforeAfter() {
         unitOfTime: '',
         operator: '',
         userDateTime: '',
+        queryResponse: '',
     };
-    var queryResponse = '';
+    // var queryResponse = '';
 
     const [values, setValues] = React.useState(initialValues);
 
@@ -53,30 +54,49 @@ function DateQueryBeforeAfter() {
                 },
             })
             .then((response) => {
-                queryResponse = response.data;
-                console.log('^^^^' + JSON.stringify(queryResponse));
+                setValues({
+                    ...values,
+                    queryResponse: response.data,
+                });
+                // queryResponse = response.data;
+                // console.log('^^^^' + JSON.stringify(queryResponse));
             })
             .catch((error) => {
                 if (!_.isUndefined(error.response)) {
                     if (!_.isUndefined(error.response.data)) {
                         if (!_.isUndefined(error.response.data.error)) {
-                            queryResponse = error.response.data.error;
+                            setValues({
+                                ...values,
+                                queryResponse: error.response.data.error,
+                            });
+                            // queryResponse = error.response.data.error;
                         } else if (
                             !_.isUndefined(
                                 error.response.data.errorResponse.message
                             )
                         ) {
-                            queryResponse =
-                                error.response.data.errorResponse.message;
+                            setValues({
+                                ...values,
+                                queryResponse:
+                                    error.response.data.errorResponse.message,
+                            });
+                            // queryResponse =
+                            //     error.response.data.errorResponse.message;
                         }
                     }
                 } else if (!_.isUndefined(error.message)) {
-                    queryResponse = error.message;
+                    setValues({
+                        ...values,
+                        queryResponse: error.message,
+                    });
+                    // queryResponse = error.message;
                 }
             });
     };
 
     const handleChange = (event, { name, value }) => {
+        console.log('hc name' + name + 'value' + value);
+
         // save field values
         setValues({
             ...values,
@@ -90,23 +110,20 @@ function DateQueryBeforeAfter() {
         });
     };
 
-    const handleBlur = (evt) => {
-        if (evt) {
-            const { name, value } = evt.target;
-            if (name) {
-                // remove whatever error was there previously
-                const { [name]: removedError, ...rest } = errors;
+    const handleBlur = (event, { name, value }) => {
+        console.log('name' + name + 'value' + value);
 
-                // check for a new error
-                const error = validate[name](value);
+        // remove whatever error was there previously
+        const { [name]: removedError, ...rest } = errors;
 
-                // // validate the field if the value has been touched
-                setErrors({
-                    ...rest,
-                    ...(error && { [name]: touched[name] && error }),
-                });
-            }
-        }
+        // check for a new error
+        const error = validate[name](value);
+
+        // // validate the field if the value has been touched
+        setErrors({
+            ...rest,
+            ...(error && { [name]: touched[name] && error }),
+        });
     };
 
     const validateNumber = (fieldName, fieldValue) => {
@@ -119,7 +136,7 @@ function DateQueryBeforeAfter() {
         return null;
     };
     const validateRequired = (fieldName, fieldValue) => {
-        if (fieldValue.trim() === '') {
+        if (!fieldValue) {
             return `${fieldName} is required`;
         }
         return null;
@@ -136,6 +153,7 @@ function DateQueryBeforeAfter() {
         unitOfTime: (unitOfTime) => validateRequired('Min/Hours', unitOfTime),
         operator: (operator) => validateRequired('Before or After', operator),
         userDateTime: (userDateTime) => validateDateTime('Date', userDateTime),
+        queryResponse: (queryResponse) => null,
     };
 
     // see https://react.semantic-ui.com/modules/dropdown/#types-selection
@@ -184,9 +202,8 @@ function DateQueryBeforeAfter() {
 
     // If server responded with answer or error then show answer component
     let answerComponent;
-    console.log('************' + queryResponse);
-    if (queryResponse) {
-        answerComponent = <Answer response={queryResponse} />;
+    if (values.queryResponse) {
+        answerComponent = <Answer response={values.queryResponse} />;
     }
 
     let daysOrHoursErrorComponent;
