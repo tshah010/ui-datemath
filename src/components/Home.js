@@ -17,8 +17,8 @@ const Home = () => {
                     <Segment basic>
                         <img
                             className="logo"
-                            alt="dateMath.net"
-                            src="logo327x89.png"
+                            alt="dateMath.net logo"
+                            src="logo327x111.png"
                         />
                     </Segment>
                 </Grid.Row>
@@ -47,6 +47,7 @@ const Home = () => {
                     </Grid.Column>
                     <Grid.Column width={3} floated="right">
                         <Segment secondary>
+                            AD
                             <Advertisement unit="wide skyscraper">
                                 <BasicAd />
                             </Advertisement>
