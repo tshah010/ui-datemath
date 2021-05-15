@@ -16,6 +16,14 @@ body {
     padding-top: 4rem;
 }
 
+.ui.blue.label {
+    background-color: #4c9fca !important;
+}
+
+.ui.yellow.label {
+    background-color: #febe12 !important;
+}
+
 .ui.basic.segment > .ui.huge.header {
     font-size: 54px;
 }

@@ -53,21 +53,11 @@ class DateQueryBeforeAfter extends React.Component {
                 this.setState({ queryResponse: response.data });
             })
             .catch((error) => {
-                if (
-                    !_.isEmpty(error.response) &&
-                    !_.isEmpty(error.response.data.error)
-                ) {
-                    this.setState({ queryResponse: error.response.data.error });
-                } else if (
-                    !_.isEmpty(error.response.data.errorResponse.message)
-                ) {
-                    this.setState({
-                        queryResponse:
-                            error.response.data.errorResponse.message,
-                    });
-                } else if (!_.isEmpty(error.message)) {
-                    this.setState({ queryResponse: error.message });
-                }
+                const queryResponse =
+                    error?.response?.data?.error ||
+                    error?.response?.data?.errorResponse?.message ||
+                    error?.message;
+                this.setState({ queryResponse: queryResponse });
             });
     };
 
