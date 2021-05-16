@@ -1,6 +1,6 @@
 import React from 'react';
 import { DateTimeInput } from 'semantic-ui-calendar-react';
-import { Form, Button, Icon, Label, Input } from 'semantic-ui-react';
+import { Form, Button, Icon, Label, Input, Dropdown } from 'semantic-ui-react';
 import _ from 'lodash';
 import Answer from './Answer';
 import datemath from '../api/datemath';
@@ -94,36 +94,43 @@ function DateQueryBeforeAfter() {
             });
     };
 
-    const handleChange = (event, { name, value }) => {
-        console.log('hc name' + name + 'value' + value);
-
+    const handleChange = (event, data) => {
+        var name = data ? data.name : event?.target?.name;
+        // Input doesn't pass data in onBlur to pick from event.
+        var value = data ? data.value : event?.target?.value;
+        console.log('handleChange name = ' + name + ',value = ' + value);
         // save field values
         setValues({
             ...values,
             [name]: value,
         });
 
-        // was the field modified
-        setTouched({
-            ...touched,
-            [name]: true,
-        });
+        // // was the field modified
+        // setTouched({
+        //     ...touched,
+        //     [name]: true,
+        // });
     };
 
-    const handleBlur = (event, { name, value }) => {
-        console.log('name' + name + 'value' + value);
+    const handleBlur = (event, data) => {
+        console.log(
+            'handleBlur name = ' +
+                event?.target?.name +
+                ',value = ' +
+                event?.target?.value
+        );
 
         // remove whatever error was there previously
-        const { [name]: removedError, ...rest } = errors;
+        // const { [name]: removedError, ...rest } = errors;
 
-        // check for a new error
-        const error = validate[name](value);
+        // // check for a new error
+        // const error = validate[name](value);
 
-        // // validate the field if the value has been touched
-        setErrors({
-            ...rest,
-            ...(error && { [name]: touched[name] && error }),
-        });
+        // // // validate the field if the value has been touched
+        // setErrors({
+        //     ...rest,
+        //     ...(error && { [name]: touched[name] && error }),
+        // });
     };
 
     const validateNumber = (fieldName, fieldValue) => {
@@ -261,7 +268,9 @@ function DateQueryBeforeAfter() {
                             {daysOrHoursErrorComponent}
                         </Form.Field>
                         <Form.Field>
-                            <Form.Select
+                            <Dropdown
+                                fluid
+                                selection
                                 name="unitOfTime"
                                 placeholder="mins/hrs/days..."
                                 options={unitOfTimeOptions}
@@ -271,11 +280,10 @@ function DateQueryBeforeAfter() {
                             {unitOfTimeErrorComponent}
                         </Form.Field>
                         <Form.Field>
-                            <Form.Select
+                            <Dropdown
                                 fluid
                                 name="operator"
                                 placeholder="before or after"
-                                search
                                 selection
                                 options={operatorOptions}
                                 onChange={handleChange}
